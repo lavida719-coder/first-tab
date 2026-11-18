@@ -1,6 +1,62 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+
+const heroSlides = [
+  { image: 'ginkgo', title: '은행나무 산책길' },
+  { image: 'window', title: '가을 창가' },
+  { image: 'lakeshore', title: '단풍 호숫가' },
+];
+
+function AutumnHero({ children }) {
+  const [slide, setSlide] = useState(0);
+  const [playing, setPlaying] = useState(false);
+  const swipeStart = useRef(null);
+
+  useEffect(() => {
+    setPlaying(!window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  }, []);
+
+  useEffect(() => {
+    if (!playing) return;
+    const timer = setTimeout(() => setSlide((slide + 1) % heroSlides.length), 5000);
+    return () => clearTimeout(timer);
+  }, [playing, slide]);
+
+  return (
+    <section className="hero" aria-label="가을 배경과 검색"
+      onTouchStart={event => {
+        const touch = event.changedTouches[0];
+        swipeStart.current = { x: touch.clientX, y: touch.clientY };
+      }}
+      onTouchCancel={() => { swipeStart.current = null; }}
+      onTouchEnd={event => {
+        const start = swipeStart.current;
+        swipeStart.current = null;
+        if (!start) return;
+        const touch = event.changedTouches[0];
+        const distance = touch.clientX - start.x;
+        if (Math.abs(distance) < 45 || Math.abs(distance) <= Math.abs(touch.clientY - start.y)) return;
+        setSlide(current => (current + (distance < 0 ? 1 : -1) + heroSlides.length) % heroSlides.length);
+      }}>
+      <div className="hero-images" aria-hidden="true">
+        {heroSlides.map(({ image }, index) => <div key={image}
+          className={index === slide ? 'hero-image active' : 'hero-image'}
+          style={{ backgroundImage: `url(/images/autumn/${image}.png)` }} />)}
+      </div>
+      {children}
+      <div className="hero-controls" role="group" aria-label="가을 배경 바꾸기">
+        {heroSlides.map(({ image, title }, index) => <button key={image} type="button"
+          aria-label={title} aria-pressed={index === slide} onClick={() => setSlide(index)}>
+          <span className="hero-dot" aria-hidden="true" />
+        </button>)}
+        <button className="hero-toggle" type="button" onClick={() => setPlaying(value => !value)}>
+          {playing ? '일시정지' : '자동 재생'}
+        </button>
+      </div>
+    </section>
+  );
+}
 
 const engines = {
   네이버: 'https://search.naver.com/search.naver?query=',
@@ -88,21 +144,23 @@ export default function Home() {
       <header className="brand"><span aria-hidden="true">🍁</span> 첫 탭</header>
       <div className="dashboard">
         <section className="workspace" aria-label="검색과 바로가기">
-          <div className="clock">
-            <p>{now?.toLocaleDateString('ko-KR', { month: 'long', day: 'numeric', weekday: 'long' })}</p>
-            <h1>{now?.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false }) ?? '--:--'}</h1>
-          </div>
-          <form className="search" role="search" onSubmit={event => {
-            event.preventDefault();
-            const query = new FormData(event.currentTarget).get('query').trim();
-            if (query) window.location.assign(engines[engine] + encodeURIComponent(query));
-          }}>
-            <select aria-label="검색 엔진" value={engine} onChange={event => setEngine(event.target.value)}>
-              {Object.keys(engines).map(name => <option key={name}>{name}</option>)}
-            </select>
-            <input name="query" type="search" aria-label="검색어" placeholder="무엇을 찾고 있나요?" required />
-            <button className="primary">검색</button>
-          </form>
+          <AutumnHero>
+            <div className="clock">
+              <p>{now?.toLocaleDateString('ko-KR', { month: 'long', day: 'numeric', weekday: 'long' })}</p>
+              <h1>{now?.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false }) ?? '--:--'}</h1>
+            </div>
+            <form className="search" role="search" onSubmit={event => {
+              event.preventDefault();
+              const query = new FormData(event.currentTarget).get('query').trim();
+              if (query) window.location.assign(engines[engine] + encodeURIComponent(query));
+            }}>
+              <select aria-label="검색 엔진" value={engine} onChange={event => setEngine(event.target.value)}>
+                {Object.keys(engines).map(name => <option key={name}>{name}</option>)}
+              </select>
+              <input name="query" type="search" aria-label="검색어" placeholder="무엇을 찾고 있나요?" required />
+              <button className="primary">검색</button>
+            </form>
+          </AutumnHero>
           <div className="heading"><h2>바로가기</h2><button onClick={() => {
             setEditing(!editing);
             setDraft({ name: '', url: '' });
