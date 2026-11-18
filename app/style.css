@@ -1,39 +1,50 @@
+:root {
+  --paper: #fbf1e4;
+  --surface: #fffaf3;
+  --ink: #40271e;
+  --muted: #75513d;
+  --accent: #943e29;
+  --border: #e6cdb6;
+  --shadow: 0 12px 32px #713d2110;
+}
 * { box-sizing: border-box; }
-:root { color-scheme: light; font-family: system-ui, sans-serif; color: #16342b; background: #f3f6ee; }
-body { margin: 0; min-height: 100vh; background: radial-gradient(ellipse at 12% 0%, #e2edd9, transparent 58%); }
+:root { color-scheme: light; font-family: system-ui, sans-serif; color: var(--ink); background: var(--paper); }
+body { margin: 0; min-height: 100vh; background: radial-gradient(ellipse at 86% 0%, #f3cd9f 0%, transparent 52%), radial-gradient(ellipse at 0% 45%, #f6dfc8 0%, transparent 48%), var(--paper); }
 main { max-width: 1200px; margin: auto; padding: 32px clamp(18px, 5vw, 64px) 70px; }
 .brand { font-weight: 770; font-size: 20px; display: flex; align-items: center; gap: 10px; }
-.brand span { background: #205b46; color: white; border-radius: 12px; display: grid; place-items: center; width: 36px; height: 36px; }
+.brand span { border-radius: 12px; display: grid; place-items: center; width: 38px; height: 38px; background: #f7dec4; border: 1px solid var(--border); }
 .dashboard { display: grid; grid-template-columns: minmax(0, 1fr) minmax(235px, 310px); gap: clamp(24px, 5vw, 64px); margin-top: clamp(48px, 12vh, 125px); align-items: start; }
-.clock p { margin: 0; font-size: 16px; color: #50695d; min-height: 24px; }
-h1 { font-size: clamp(64px, 12vw, 116px); letter-spacing: -.075em; font-variant-numeric: tabular-nums; line-height: 1.03; margin: 6px 0 32px; }
+.clock p { margin: 0; font-size: 16px; color: var(--muted); min-height: 24px; }
+h1 { font-size: clamp(64px, 12vw, 116px); letter-spacing: -.075em; font-variant-numeric: tabular-nums; line-height: 1.03; margin: 6px 0 32px; color: #5e2c20; font-family: Georgia, serif; font-weight: 500; }
 h2 { font-size: 17px; margin: 0; }
 input, select, button { font: inherit; color: inherit; min-height: 40px; }
 button, select { cursor: pointer; }
-button { border: 1px solid #d7e0d6; background: #fff; border-radius: 10px; padding: 0 12px; }
+button { border: 1px solid var(--border); background: var(--surface); border-radius: 10px; padding: 0 12px; }
 button:disabled { opacity: .35; cursor: default; }
-.primary { border-color: #205b46; background: #205b46; color: #fff; }
+.primary { border-color: var(--accent); background: var(--accent); color: var(--surface); }
 button:hover:not(:disabled), a:hover { filter: brightness(.94); }
-:focus-visible { outline: 2px solid #2e7559; outline-offset: 3px; }
-input, select { background: #fff; border: 1px solid #d7e0d6; border-radius: 10px; padding: 0 10px; min-width: 0; }
-.search { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; background: white; padding: 7px; border: 1px solid #d7e0d6; border-radius: 16px; gap: 6px; margin-bottom: 34px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+input, select { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 0 10px; min-width: 0; }
+.search { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; background: var(--surface); padding: 7px; border: 1px solid var(--border); border-radius: 16px; gap: 6px; margin-bottom: 34px; box-shadow: var(--shadow); }
 .search input, .search select { border: 0; }
 .heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 ul { list-style: none; padding: 0; margin: 14px 0 0; }
 .links { display: grid; grid-template-columns: repeat(auto-fill, minmax(79px, 1fr)); gap: 10px; }
-.tile { display: grid; justify-items: center; align-content: center; gap: 8px; text-decoration: none; color: inherit; border: 1px solid #dce4d9; background: #ffffffd9; border-radius: 14px; min-height: 87px; width: 100%; text-align: center; overflow-wrap: anywhere; padding: 8px; font-size: 13px; }
-.tile span { display: grid; place-items: center; width: 32px; height: 32px; background: #e3eee2; border-radius: 10px; font-weight: 700; }
+.tile { display: grid; justify-items: center; align-content: center; gap: 8px; text-decoration: none; color: inherit; border: 1px solid var(--border); background: var(--surface)fffd9; border-radius: 14px; min-height: 87px; width: 100%; text-align: center; overflow-wrap: anywhere; padding: 8px; font-size: 13px; }
+.tile span { display: grid; place-items: center; width: 32px; height: 32px; background: #f3dbc2; border-radius: 10px; font-weight: 700; }
+.links li:nth-child(3n + 2) .tile span { background: #f3d9d0; }
+.links li:nth-child(3n) .tile span { background: #f5e3b7; }
 .actions { display: flex; justify-content: center; gap: 3px; margin-top: 4px; }
 .actions button { padding: 0; min-width: 24px; min-height: 30px; }
 .link-form { display: flex; flex-wrap: wrap; gap: 8px; align-items: end; margin-top: 14px; }
 .link-form label { display: grid; flex: 1 1 120px; gap: 4px; font-size: 13px; }
 .link-form p { width: 100%; margin: 0; color: #a32929; }
-.tasks { border: 1px solid #dce4d9; border-radius: 20px; background: #fff; padding: 20px; }
-.tasks .heading span, .empty { color: #50695d; font-size: 14px; }
+.tasks { border: 1px solid var(--border); border-radius: 20px; background: var(--surface); padding: 20px; box-shadow: var(--shadow); }
+.tasks .heading span, .empty { color: var(--muted); font-size: 14px; }
 .task-form { margin-top: 18px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px; }
-.tasks li { display: flex; align-items: center; justify-content: space-between; gap: 8px; border-top: 1px solid #e9eee8; padding: 7px 0; }
+.tasks li { display: flex; align-items: center; justify-content: space-between; gap: 8px; border-top: 1px solid #f1e4d5; padding: 7px 0; }
 .tasks li label { display: flex; align-items: center; gap: 8px; min-width: 0; overflow-wrap: anywhere; }
-.tasks input[type=checkbox] { accent-color: #205b46; min-height: auto; width: 16px; height: 16px; flex: none; }
-.tasks input:checked + span { text-decoration: line-through; color: #50695d; }
+.tasks input[type=checkbox] { accent-color: var(--accent); min-height: auto; width: 16px; height: 16px; flex: none; }
+.tasks input:checked + span { text-decoration: line-through; color: var(--muted); }
 .tasks li button { min-height: 32px; }
 @media (max-width: 720px) { .dashboard { grid-template-columns: 1fr; } }

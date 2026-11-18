@@ -85,7 +85,7 @@ export default function Home() {
 
   return (
     <main>
-      <header className="brand"><span aria-hidden="true">✦</span> 첫 탭</header>
+      <header className="brand"><span aria-hidden="true">🍁</span> 첫 탭</header>
       <div className="dashboard">
         <section className="workspace" aria-label="검색과 바로가기">
           <div className="clock">
