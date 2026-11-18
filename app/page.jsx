@@ -3,12 +3,12 @@
 import { useEffect, useRef, useState } from 'react';
 
 const heroSlides = [
-  { image: 'ginkgo', title: '은행나무 산책길' },
-  { image: 'window', title: '가을 창가' },
-  { image: 'lakeshore', title: '단풍 호숫가' },
+  { image: 'snowy-pines', title: '눈 덮인 소나무 숲' },
+  { image: 'winter-window', title: '눈 내리는 창가' },
+  { image: 'frozen-lake', title: '겨울 호숫가' },
 ];
 
-function AutumnHero({ children }) {
+function WinterHero({ children }) {
   const [slide, setSlide] = useState(0);
   const [playing, setPlaying] = useState(false);
   const swipeStart = useRef(null);
@@ -24,7 +24,7 @@ function AutumnHero({ children }) {
   }, [playing, slide]);
 
   return (
-    <section className="hero" aria-label="가을 배경과 검색"
+    <section className="hero" aria-label="겨울 배경과 검색"
       onTouchStart={event => {
         const touch = event.changedTouches[0];
         swipeStart.current = { x: touch.clientX, y: touch.clientY };
@@ -42,10 +42,10 @@ function AutumnHero({ children }) {
       <div className="hero-images" aria-hidden="true">
         {heroSlides.map(({ image }, index) => <div key={image}
           className={index === slide ? 'hero-image active' : 'hero-image'}
-          style={{ backgroundImage: `url(/images/autumn/${image}.png)` }} />)}
+          style={{ backgroundImage: `url(/images/winter/${image}.webp)` }} />)}
       </div>
       {children}
-      <div className="hero-controls" role="group" aria-label="가을 배경 바꾸기">
+      <div className="hero-controls" role="group" aria-label="겨울 배경 바꾸기">
         {heroSlides.map(({ image, title }, index) => <button key={image} type="button"
           aria-label={title} aria-pressed={index === slide} onClick={() => setSlide(index)}>
           <span className="hero-dot" aria-hidden="true" />
@@ -141,10 +141,10 @@ export default function Home() {
 
   return (
     <main>
-      <header className="brand"><span aria-hidden="true">🍁</span> 첫 탭</header>
+      <header className="brand"><span aria-hidden="true">❄︎</span> 첫 탭</header>
       <div className="dashboard">
         <section className="workspace" aria-label="검색과 바로가기">
-          <AutumnHero>
+          <WinterHero>
             <div className="clock">
               <p>{now?.toLocaleDateString('ko-KR', { month: 'long', day: 'numeric', weekday: 'long' })}</p>
               <h1>{now?.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit', hour12: false }) ?? '--:--'}</h1>
@@ -160,7 +160,7 @@ export default function Home() {
               <input name="query" type="search" aria-label="검색어" placeholder="무엇을 찾고 있나요?" required />
               <button className="primary">검색</button>
             </form>
-          </AutumnHero>
+          </WinterHero>
           <div className="heading"><h2>바로가기</h2><button onClick={() => {
             setEditing(!editing);
             setDraft({ name: '', url: '' });
